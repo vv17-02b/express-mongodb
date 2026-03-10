@@ -1,0 +1,278 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { TiArrowSortedDown } from "react-icons/ti";
+import { VscSettingsGear } from "react-icons/vsc";
+import { FaPhone, FaRegUserCircle, FaEyeSlash } from "react-icons/fa";
+import { HiMenu, HiX } from "react-icons/hi";
+import { IoEyeSharp } from "react-icons/io5";
+import ToggleThemeButton from "../../hooks/ToggleThemeButton";
+import interer from "../../assets/images/interer.png";
+import logo from "../../assets/images/logo.png";
+import AdminModal from "../Admin/Admin";
+
+const navLink = [
+  { label: "Дім", href: "/" },
+  { label: "Сервіс", href: "/UI-Components/Pages/Service" },
+  {
+    label: "Демонструвати",
+    href: "/UI-Components/Projects",
+    dropdown: [
+      { label: "Демонструвати", href: "/UI-Components/Projects" },
+      { label: "Деталі проекту", href: "/UI-Components/Projects/2" },
+    ],
+  },
+  {
+    label: "Блог",
+    href: "/UI-Components/Blogs",
+    dropdown: [
+      { label: "Блог", href: "/UI-Components/Blogs" },
+      { label: "Деталі блогу", href: "/UI-Components/Blogs/2" },
+    ],
+  },
+  {
+    label: "Сторінки",
+    href: "/UI-Components/Pages/About", 
+    dropdown: [
+      { label: "Про нас", href: "/UI-Components/Pages/About" },
+      { label: "Команда", href: "/UI-Components/Pages/Teams" },
+      { label: "Галерея", href: "/UI-Components/Pages/Gallery" },
+      { label: "Картки", href: "/UI-Components/Pages/CardGrid" },
+      { label: "Контакт", href: "/UI-Components/Pages/Constant" },
+    ],
+  },
+  { label: "Контакт", href: "/UI-Components/Pages/Constant" },
+];
+
+const Navbar = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [isRegister, setIsRegister] = useState(false);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("user");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("role", data.user.role);
+        setShowModal(false);
+        if (data.user.role === "admin" || data.user.role === "користувач") {
+          setIsAdminOpen(true);
+        }
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      alert("Помилка сервера");
+    }
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    if (!name || !email || !password) return alert("Будь ласка, заповніть всі поля!");
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/registration", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password, role }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert(data.message);
+        setIsRegister(false);
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      alert("Помилка при реєстрації");
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 30);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <>
+      <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-md" : "bg-transparent"}`}>
+        <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-10 flex items-center justify-between h-18">
+          <Link to="/"><img src={logo} alt="Logo" width={50} height={50} className="rounded-full" /></Link>
+
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-8">
+            {navLink.map((link) => (
+              <div key={link.label} className="relative group">
+                {link.dropdown ? (
+                  <>
+                    <Link to={link.href} className="flex items-center gap-1 font-medium hover:text-[#6919dd] dark:text-gray-200 transition-colors">
+                      {link.label} <TiArrowSortedDown className="group-hover:rotate-180 transition-transform" />
+                    </Link>
+                    <div className="absolute left-0 top-full pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                      <div className="bg-white dark:bg-gray-800 shadow-xl rounded-xl py-2 min-w-[200px] border border-gray-100 dark:border-gray-700">
+                        {link.dropdown.map((item) => (
+                          <Link key={item.label} to={item.href} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-indigo-50 dark:hover:bg-gray-700 hover:text-[#6919dd] dark:text-gray-200">
+                            <VscSettingsGear size={16} /> {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <Link to={link.href} className="font-medium hover:text-[#6919dd] dark:text-gray-200">{link.label}</Link>
+                )}
+              </div>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-4">
+            <div className="hidden xl:flex items-center gap-3 mr-4">
+              <div className="relative flex items-center justify-center w-10 h-10 cursor-pointer">
+                <span className="wave"></span>
+                <span className="wave wave-delay-1"></span>
+                <FaPhone className="text-prim text-lg animate-vibrate relative z-10" />
+              </div>
+              <span className="text-sm font-medium text-prim">+38 (099) 123-45-67</span>
+            </div>
+
+            <ToggleThemeButton />
+            <button onClick={() => {
+              const savedRole = localStorage.getItem("role");
+              if (savedRole === "admin" || savedRole === "користувач") setIsAdminOpen(true);
+              else setShowModal(true);
+            }} className="text-gray-900 dark:text-gray-200 hover:text-[#6919dd]"><FaRegUserCircle size={28} /></button>
+            
+            <button onClick={() => setMobileOpen(true)} className="lg:hidden text-3xl dark:text-white">
+              <HiMenu />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* MOBILE MENU (SIDEBAR) */}
+      <div className={`fixed inset-0 z-[100] transition-visibility duration-300 ${mobileMenuOpen ? "visible" : "invisible"}`}>
+        <div className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${mobileMenuOpen ? "opacity-100" : "opacity-0"}`} onClick={() => setMobileOpen(false)}></div>
+        
+        <div className={`absolute top-0 left-0 h-full w-[280px] bg-white dark:bg-gray-900 shadow-2xl transition-transform duration-300 ease-in-out transform ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"}`}>
+          <div className="p-6 flex flex-col h-full">
+            <div className="flex items-center justify-between mb-8">
+              <img src={logo} alt="Logo" width={40} className="rounded-full" />
+              <button onClick={() => setMobileOpen(false)} className="text-3xl dark:text-white"><HiX /></button>
+            </div>
+
+            <nav className="flex flex-col gap-4 overflow-y-auto">
+              {navLink.map((link, idx) => (
+                <div key={idx}>
+                  {link.dropdown ? (
+                    <div>
+                      <div className="flex items-center justify-between w-full py-2">
+                        <Link 
+                          to={link.href} 
+                          onClick={() => setMobileOpen(false)} 
+                          className="font-semibold text-lg dark:text-white hover:text-[#6919dd]"
+                        >
+                          {link.label}
+                        </Link>
+                        <button 
+                          onClick={() => setActiveDropdown(activeDropdown === idx ? null : idx)}
+                          className="p-2 dark:text-white"
+                        >
+                          <TiArrowSortedDown className={`transition-transform duration-300 ${activeDropdown === idx ? "rotate-180" : ""}`} />
+                        </button>
+                      </div>
+                      <div className={`pl-4 overflow-hidden transition-all duration-300 ${activeDropdown === idx ? "max-h-[500px] opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
+                        {link.dropdown.map((sub) => (
+                          <Link key={sub.label} to={sub.href} onClick={() => setMobileOpen(false)} className="block py-2 text-gray-600 dark:text-gray-400 hover:text-[#6919dd]">
+                            {sub.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <Link to={link.href} onClick={() => setMobileOpen(false)} className="block py-2 font-semibold text-lg dark:text-white hover:text-[#6919dd]">
+                      {link.label}
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </nav>
+
+            <div className="mt-auto pt-6 border-t dark:border-gray-800">
+              <div className="flex items-center gap-3 text-[#6919dd]">
+                <FaPhone />
+                <span className="text-sm font-bold">+38 (099) 123-45-67</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* LOGIN/REG MODAL */}
+      {showModal && (
+        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={() => setShowModal(false)}></div>
+          <div className="relative bg-white dark:bg-[#0f172a] w-full max-w-5xl h-auto lg:h-[600px] rounded-[32px] overflow-hidden flex flex-col lg:flex-row shadow-2xl border border-white/10">
+            <div className="relative w-full lg:w-[60%] h-[200px] lg:h-full overflow-hidden group">
+              <img src={interer} alt="interior" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-black/90 to-transparent p-10 flex flex-col justify-end text-white">
+                <h2 className="text-3xl lg:text-5xl font-black">ВАШ <span className="text-[#6919dd]">ІНТЕР'ЄР</span> — НАША ПРИСТРАСТЬ</h2>
+              </div>
+            </div>
+
+            <div className="relative w-full lg:w-[40%] p-10 flex flex-col justify-center bg-white dark:bg-gray-900">
+              <button onClick={() => setShowModal(false)} className="absolute top-8 right-6 text-gray-500 hover:rotate-90 transition-all"><HiX size={24} /></button>
+              <div className="w-full max-w-sm mx-auto text-center lg:text-left">
+                <div className="mb-8 flex justify-center gap-6">
+                  <button className={`font-bold text-lg ${!isRegister ? "text-[#6919dd] border-b-2 border-[#6919dd]" : "text-gray-400"}`} onClick={() => setIsRegister(false)}>Логін</button>
+                  <button className={`font-bold text-lg ${isRegister ? "text-[#6919dd] border-b-2 border-[#6919dd]" : "text-gray-400"}`} onClick={() => setIsRegister(true)}>Реєстрація</button>
+                </div>
+                <form className="space-y-5" onSubmit={isRegister ? handleRegister : handleLogin}>
+                  {isRegister && <input type="text" placeholder="Ім'я" required className="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl outline-none focus:ring-2 ring-[#6919dd] dark:text-white" onChange={(e) => setName(e.target.value)} />}
+                  <input type="email" placeholder="Email" required className="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl outline-none focus:ring-2 ring-[#6919dd] dark:text-white" onChange={(e) => setEmail(e.target.value)} />
+                  <div className="relative">
+                    <input type={showPassword ? "text" : "password"} placeholder="Пароль" required className="w-full p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl outline-none focus:ring-2 ring-[#6919dd] dark:text-white" onChange={(e) => setPassword(e.target.value)} />
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-4 text-gray-400">{showPassword ? <FaEyeSlash size={22} /> : <IoEyeSharp size={22} />}</button>
+                  </div>
+                  {isRegister && (
+                    <div className="flex gap-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-xl">
+                      <button type="button" onClick={() => setRole("user")} className={`flex-1 py-1 text-xs font-bold rounded-lg ${role === 'user' ? 'bg-white shadow text-[#6919dd]' : 'text-gray-400'}`}>USER</button>
+                      <button type="button" onClick={() => setRole("admin")} className={`flex-1 py-1 text-xs font-bold rounded-lg ${role === 'admin' ? 'bg-white shadow text-red-500' : 'text-gray-400'}`}>ADMIN</button>
+                    </div>
+                  )}
+                  <button type="submit" className="w-full bg-[#6919dd] hover:bg-[#5714bd] text-white py-4 rounded-2xl font-black shadow-lg transition-all active:scale-95 uppercase tracking-widest">
+                    {isRegister ? "ЗАРЕЄСТРУВАТИСЯ" : "УВІЙТИ"}
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <AdminModal isOpen={isAdminOpen} onClose={() => setIsAdminOpen(false)} />
+    </>
+  );
+};
+
+export default Navbar;
+
+
+https://block-nextjs.vercel.app
+vv17-02b
+та URL-адреса
+www.linkedin.com/in/vladimir-bessalov-1a8b03264

@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "furniture": "Beds",
+    "title": "Comfort Bed Premium",
+    "size": "160x200 cm",
+    "material": "Wood",
+    "color": "Beige",
+    "images": ["/images/bed-1.jpg", "/images/bed-2.jpg", "/images/bed-3.jpg"],
+    "price": "12000",
+    "description": "Комфортне двоспальне ліжко з масиву натурального дерева з ортопедичною основою.",
+    "avatar": "https://i.pravatar.cc"
+  },
+  {
+    "id": 2,
+    "furniture": "Wardrobes",
+    "title": "Bedroom Wardrobe Classic",
+    "size": "200x60x220 cm",
+    "material": "Chipboard",
+    "color": "Brown",
+    "images": ["/images/wardrobe-1.jpg", "/images/wardrobe-2.jpg", "/images/wardrobe-3.jpg"],
+    "price": "8500",
+    "description": "Містка шафа для спальні з продуманим внутрішнім наповненням та надійною фурнітурою.",
+    "avatar": "https://i.pravatar.cc"
+  },
+  {
+    "id": 3,
+    "furniture": "Kitchen",
+    "title": "Modern White Kitchen",
+    "size": "3.5 m.p.",
+    "material": "MDF Gloss",
+    "color": "White / Wood",
+    "images": ["/images/kitchen-cabinet-1.jpg", "/images/kitchen-cabinet-2.jpg", "/images/kitchen-cabinet-3.jpg"],
+    "price": "45000",
+    "description": "Сучасна кухня з глянцевими фасадами та інтегрованими ручками. Австрійська фурнітура Blum.",
+    "avatar": "https://i.pravatar.cc"
+  },
+  {
+    "id": 4,
+    "furniture": "SlidingWardrobes",
+    "title": "Mirror Slide System",
+    "size": "180x60x240 cm",
+    "material": "Chipboard / Glass",
+    "color": "Graphite",
+    "images": ["/images/sliding-wardrobe-1.jpg", "/images/sliding-wardrobe-2.jpg", "/images/sliding-wardrobe-3.jpg"],
+    "price": "14500",
+    "description": "Шафа-купе з дзеркальними фасадами, що візуально розширюють простір вашого передпокою.",
+    "avatar": "https://i.pravatar.cc"
+  },
+  {
+    "id": 5,
+    "furniture": "Tables",
+    "title": "Loft Dining Table",
+    "size": "160x90 cm",
+    "material": "Oak / Metal",
+    "color": "Dark Walnut",
+    "images": ["/images/dining-table-1.jpg", "/images/dining-table-2.jpg", "/images/dining-table-3.jpg"],
+    "price": "9200",
+    "description": "Обідній стіл у стилі лофт. Масив дуба та металева опора з порошковим фарбуванням.",
+    "avatar": "https://i.pravatar.cc"
+  },
+  {
+    "id": 6,
+    "furniture": "Dressers",
+    "title": "Minimalist Dresser",
+    "size": "120x45x85 cm",
+    "material": "Chipboard Egger",
+    "color": "Silk Grey",
+    "images": ["/images/dresser-1.jpg", "/images/dresser-2.jpg", "/images/dresser-3.jpg"],
+    "price": "6800",
+    "description": "Елегантний комод на 4 шухляди з системою плавного закриття Tip-On.",
+    "avatar": "https://i.pravatar.cc"
+  },
+  {
+    "id": 7,
+    "furniture": "Nightstands",
+    "title": "Compact Nightstand",
+    "size": "45x40 cm",
+    "material": "Wood",
+    "color": "Natural Oak",
+    "images": ["/images/nightstand-1.jpg", "/images/nightstand-2.jpg", "/images/nightstand-3.jpg"],
+    "price": "3100",
+    "description": "Тумба приліжкова з висувною шухлядою. Ідеальне доповнення до ліжка Premium.",
+    "avatar": "https://i.pravatar.cc"
+  },
+  {
+    "id": 8,
+    "furniture": "KidsTables",
+    "title": "Creative Kids Zone",
+    "size": "80x50 cm",
+    "material": "Eco Plastic",
+    "color": "Multi",
+    "images": ["/images/kids-table-1.jpg", "/images/kids-table-2.jpg", "/images/kids-table-3.jpg"],
+    "price": "2450",
+    "description": "Безпечний та яскравий столик для дитячої творчості. Легко миється та не має гострих кутів.",
+    "avatar": "https://i.pravatar.cc"
+  }
+]

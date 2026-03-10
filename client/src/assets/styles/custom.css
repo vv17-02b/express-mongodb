@@ -1,0 +1,549 @@
+/* =========================
+   ROOT VARIABLES
+========================= */
+:root {
+    --prim-color: #6919dd;
+    --white: #ffffff;
+    --black: #000000;
+    --text-color: #2f2956;
+    --pere-color: #2f2956;
+    --prim-gradient: linear-gradient(90deg, #F1EAF8 0%, #F7F4FC 100%);
+}
+
+/* =========================
+   BASE
+========================= */
+body {
+    font-family: 'Rubik', sans-serif;
+}
+
+/* =========================
+   CUSTOM UTIL CLASSES
+========================= */
+.bg-prim {
+    background-color: var(--prim-color);
+}
+
+.text-prim {
+    color: var(--prim-color);
+}
+
+
+@keyframes vibrate {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-2px);
+    }
+
+    50% {
+        transform: translateX(2px);
+    }
+
+    75% {
+        transform: translateX(-2px);
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0.6);
+        opacity: 0.6;
+    }
+
+    70% {
+        transform: scale(2);
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+
+/* =========================
+   HEADER BUTTON
+========================= */
+/* ========================= */
+
+
+.header-btns {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 14px 20px;
+    width: 100%;
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(3px);
+    background-color: rgba(255, 255, 255, 0.05);
+
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.1);
+
+    cursor: pointer;
+    transition: background-color 400ms, border-color 400ms;
+
+    z-index: 1000;
+    color: #fff;
+    overflow: hidden;
+
+    font-size: 16px;
+}
+
+/* hover */
+
+.header-btns:hover {
+    background-color: #3c078b;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* анімація блиску */
+
+.header-btns::after,
+.header-btns::before {
+    position: absolute;
+    content: "";
+    width: 30px;
+    height: 180px;
+
+    background: linear-gradient(
+        90deg,
+        rgba(255,255,255,0.6) 20%,
+        rgba(255,255,255,0.1) 100%
+    );
+
+    transform: rotate(30deg);
+
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+}
+
+.header-btns::after {
+    left: -20%;
+    top: -40px;
+    animation-name: runShadow;
+}
+
+.header-btns::before {
+    right: -20%;
+    bottom: -40px;
+    animation-name: runShadows;
+}
+@keyframes runShadow {
+    from {
+        left: -20%;
+    }
+
+    to {
+        left: 120%;
+    }
+}
+
+@keyframes runShadows {
+    from {
+        right: -20%;
+    }
+
+    to {
+        right: 120%;
+    }
+}
+
+/* ========================= */
+/* TABLET */
+/* ========================= */
+
+@media (max-width: 1024px) {
+
+.header-btns{
+    padding:12px 18px;
+    font-size:15px;
+}
+
+.header-btns::after,
+.header-btns::before{
+    height:150px;
+}
+
+}
+
+/* ========================= */
+/* MOBILE */
+/* ========================= */
+
+@media (max-width:768px){
+
+.header-btns{
+    padding:12px 16px;
+    font-size:14px;
+}
+
+.header-btns::after,
+.header-btns::before{
+    width:20px;
+    height:130px;
+}
+
+}
+
+/* ========================= */
+/* SMALL MOBILE */
+/* ========================= */
+
+@media (max-width:480px){
+
+.header-btns{
+    padding:10px 14px;
+    font-size:13px;
+}
+
+.header-btns::after,
+.header-btns::before{
+    display:none; /* прибираємо анімацію щоб не тормозило телефон */
+}
+
+}
+
+/* ========================= */
+/* 4K / LARGE SCREENS */
+/* ========================= */
+
+@media (min-width:1600px){
+
+.header-btns{
+    padding:18px 26px;
+    font-size:18px;
+}
+
+.header-btns::after,
+.header-btns::before{
+    height:220px;
+}
+
+}
+
+/* ========================= */
+/* KEYFRAMES */
+/* ========================= */
+
+@keyframes runShadow {
+
+0%{
+    left:-30%;
+}
+
+100%{
+    left:120%;
+}
+
+}
+
+@keyframes runShadows {
+
+0%{
+    right:-30%;
+}
+
+100%{
+    right:120%;
+}
+
+}
+@keyframes vibrate {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-2px);
+    }
+
+    50% {
+        transform: translateX(2px);
+    }
+
+    75% {
+        transform: translateX(-2px);
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0.6);
+        opacity: 0.6;
+    }
+
+    70% {
+        transform: scale(2);
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* =========================
+   IMAGE OVERLAY
+========================= */
+.login-image-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(90deg, #000, transparent 56%);
+    opacity: 0.35;
+}
+
+/* =========================
+   BUTTON EFFECT
+========================= */
+.btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background-color: var(--black);
+    z-index: 0;
+    transition: all 0.4s ease-in-out;
+}
+
+.btn:hover::after {
+    width: 100%;
+    left: 0;
+    right: auto;
+}
+
+
+/* Налаштування скролбару для Chrome/Safari/Edge */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px; /* Дуже тонкий */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent; /* Фон доріжки прозорий */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #e2e8f0; /* Світло-сірий колір */
+  border-radius: 20px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #6c63ff; /* Колір стає яскравішим при наведенні */
+}
+
+/* Налаштування для Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #e2e8f0 transparent;
+}
+.swiper-wrapper{
+    padding: 30px 0;
+}
+.share-icons{
+    position: absolute;
+}
+.swiper-pagination-bullets .swiper-pagination-bullet {
+    padding: 5px;
+    background-color: #6600ff;
+    opacity: 1;
+    transition: 0.4s;
+}
+.swiper-pagination-bullet-active {
+    transform: scale(1.2);
+}
+.propertie-img-slider .swiper-wrapper,
+ .top-properties-img-slider .swiper-wrapper{
+    padding: 0 !important;
+}
+.top-properties{
+    position: relative;
+}
+.top-properties::after{
+    content: '';
+    top: -40%;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    background-color:#6600ff1a ;
+}
+
+/* Прибираємо стрілки у полях вводу */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Клас для екстремальної чіткості */
+.high-res-img {
+  image-rendering: -webkit-optimize-contrast;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+
+/* ---------------------------  */
+.header-btn {
+    position: relative;
+    display: inline-block; 
+    overflow: hidden; 
+    cursor: pointer;
+    z-index: 10;
+    border: none !important; 
+}
+
+.header-btn:hover {
+    /* background-color: rgba(255, 255, 255, 0.1); */
+    background-color: #3c078b;
+
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.header-btn::after,
+.header-btn::before {
+    position: absolute;
+    content: "";
+    width: 40px;
+    height: 180px;
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0.6) 20%,
+            rgba(255, 255, 255, 0.3) 100%);
+    transform: rotate(30deg);
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+}
+
+.header-btn::after {
+    left: -20%;
+    top: -40px;
+    animation-name: runShadow;
+}
+
+.header-btn::before {
+    right: -20%;
+    bottom: -40px;
+    animation-name: runShadows;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+@keyframes runShadow {
+    from {
+        left: -20%;
+    }
+
+    to {
+        left: 120%;
+    }
+}
+
+@keyframes runShadows {
+    from {
+        right: -20%;
+    }
+
+    to {
+        right: 120%;
+    }
+}
+
+@keyframes vibrate {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-2px);
+    }
+
+    50% {
+        transform: translateX(2px);
+    }
+
+    75% {
+        transform: translateX(-2px);
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0.6);
+        opacity: 0.6;
+    }
+
+    70% {
+        transform: scale(2);
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+
+/* Swiper  */
+/* Swiper Customization */
+.popular-swiper .swiper-button-next,
+.popular-swiper .swiper-button-prev {
+    color: #fff !important;
+    background: rgba(105, 25, 221, 0.4);
+    backdrop-filter: blur(10px);
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.popular-swiper .swiper-button-next:after,
+.popular-swiper .swiper-button-prev:after {
+    font-size: 20px !important;
+    font-weight: bold;
+}
+
+.popular-swiper .swiper-button-next:hover,
+.popular-swiper .swiper-button-prev:hover {
+    background: #6919dd;
+    transform: scale(1.1);
+}
+
+/* Pagination bullets */
+.popular-swiper .swiper-pagination-bullet-active {
+    background: #6919dd !important;
+    width: 30px !important;
+    border-radius: 10px !important;
+}
+
+.vertical-inner-swiper .swiper-pagination-bullet {
+    background: #fff !important;
+}
+
+/* Стандартне свойство appearance для прибирання помилок */
+select, input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+/* Swiper  */

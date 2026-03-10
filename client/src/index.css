@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import './assets/styles/custom.css';
+
+@layer base {
+  body {
+    font-family: 'Roboto', sans-serif;
+    /* Додаємо зміну фону та кольору тексту для всього сайту */
+    @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300;
+  }
+
+  h1 {
+    @apply text-3xl font-bold;
+  }
+}
+
+
+@layer components {
+  .btn-primary {
+    @apply bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition;
+  }
+
+  .card {
+    @apply p-6 bg-white shadow-lg rounded-xl;
+  }
+}
+@layer utilities {
+    .animate-vibrate {
+        animation: vibrate 0.4s linear infinite;
+    }
+
+    .wave {
+        position: absolute;
+        inset: 0;
+        border-radius: 9999px;
+        border: 2px solid #f59e0b;
+        animation: ripple 2s infinite;
+    }
+
+    .wave-delay-1 {
+        animation-delay: 0.4s;
+    }
+
+    .wave-delay-2 {
+        animation-delay: 0.8s;
+    }
+}
