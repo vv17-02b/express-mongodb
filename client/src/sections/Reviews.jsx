@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaStar, FaHeart, FaQuoteLeft, FaPlus, FaTimes } from 'react-icons/fa';
-import axios from 'axios'; // Імпортуємо доданий axios
+import axios from 'axios';
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -9,15 +9,16 @@ const Reviews = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hoverRating, setHoverRating] = useState(0);
   const [newReview, setNewReview] = useState({ name: '', text: '', rating: 5 });
-  const [reviews, setReviews] = useState([]); // Початковий стан порожній, дані прийдуть з бази
+  const [reviews, setReviews] = useState([]);
 
-  // 1. ЗАВАНТАЖЕННЯ ВІДГУКІВ З БЕКЕНДУ
+  // 1. ЗАВАНТАЖЕННЯ ВІДГУКІВ З БЕКЕНДУ (ВИПРАВЛЕНО ДЛЯ VERCEL)
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
-    
+
     const fetchReviews = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/reviews');
+        // Видалили http://localhost:5000
+        const res = await axios.get('/api/reviews');
         setReviews(res.data);
       } catch (err) {
         console.error("Помилка завантаження відгуків:", err);
@@ -27,17 +28,16 @@ const Reviews = () => {
   }, []);
 
   const handleLike = (id) => {
-    // Тут можна додати axios.patch для лайків у майбутньому
     setReviews(reviews.map(rev => rev.id === id ? { ...rev, likes: rev.likes + 1 } : rev));
   };
 
-  // 2. ВІДПРАВКА НОВОГО ВІДГУКУ В БАЗУ
+  // 2. ВІДПРАВКА НОВОГО ВІДГУКУ В БАЗУ (ВИПРАВЛЕНО ДЛЯ VERCEL)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/reviews', newReview);
-      
-      // Додаємо новий відгук у початок списку
+      // Видалили http://localhost:5000
+      const res = await axios.post('/api/reviews', newReview);
+
       setReviews([res.data, ...reviews]);
       setIsModalOpen(false);
       setNewReview({ name: '', text: '', rating: 5 });
@@ -51,7 +51,7 @@ const Reviews = () => {
   return (
     <section id="reviews" className="py-24 bg-white dark:bg-[#080808] pt-32 overflow-hidden relative transition-colors duration-500">
       <div className="container mx-auto px-4">
-        
+
         <div className="text-center mb-16" data-aos="fade-down">
           <span className="text-[#6919dd] font-black text-xs uppercase tracking-[0.5em] mb-4 block">Відгуки</span>
           <h2 className="text-4xl md:text-6xl font-black text-gray-900 dark:text-white uppercase italic tracking-tighter leading-none">
@@ -63,38 +63,31 @@ const Reviews = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <AnimatePresence>
             {reviews.map((rev) => (
-              <motion.div 
-                key={rev._id || rev.id} 
+              <motion.div
+                key={rev._id || rev.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="relative bg-gray-50 dark:bg-[#111] p-8 rounded-[2.5rem] border border-gray-100 dark:border-white/5 shadow-xl hover:-translate-y-2 transition-all duration-500 group"
               >
                 <FaQuoteLeft className="absolute top-8 right-8 text-4xl text-[#6919dd]/10 group-hover:text-[#6919dd]/20 transition-colors" />
-                
+
                 <div className="flex items-center gap-4 mb-6">
-                  <img 
-                    src={rev.avatar || `https://i.pravatar.cc{rev._id}`} 
-                    alt={rev.name} 
-                    className="w-16 h-16 rounded-2xl object-cover border-2 border-[#6919dd]/30 shadow-lg" 
+                  <img
+                    src={rev.avatar || `https://i.pravatar.cc{rev._id}`}
+                    alt={rev.name}
+                    className="w-16 h-16 rounded-2xl object-cover border-2 border-[#6919dd]/30 shadow-lg"
                   />
                   <div>
                     <h4 className="text-lg font-black text-gray-900 dark:text-white leading-tight uppercase italic">{rev.name}</h4>
                     <p className="text-[10px] text-gray-500 dark:text-gray-400 font-black uppercase tracking-widest">{rev.role || "Клієнт"}</p>
                   </div>
                 </div>
-
-                <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <FaStar key={i} className={`text-sm ${i < rev.rating ? 'text-amber-500' : 'text-gray-300 dark:text-gray-700'}`} />
-                  ))}
-                </div>
-
                 <p className="text-gray-600 dark:text-gray-400 font-medium italic mb-8 leading-relaxed">
                   "{rev.text}"
                 </p>
 
                 <div className="flex justify-between items-center pt-6 border-t border-gray-100 dark:border-white/5">
-                  <button 
+                  <button
                     onClick={() => handleLike(rev.id)}
                     className="flex items-center gap-2 text-gray-400 hover:text-red-500 transition-colors group/like"
                   >
@@ -109,7 +102,7 @@ const Reviews = () => {
         </div>
 
         <div className="mt-16 text-center">
-          <button 
+          <button
             onClick={() => setIsModalOpen(true)}
             className="inline-flex items-center gap-3 px-10 py-5 bg-[#6919dd] text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-[#5815b8] transition-all shadow-[0_20px_40px_rgba(105,25,221,0.3)] transform active:scale-95"
           >
@@ -122,41 +115,41 @@ const Reviews = () => {
       {isModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-xl animate-in fade-in duration-300">
           <div className="bg-white dark:bg-[#111] w-full max-w-lg rounded-[3rem] p-10 relative border dark:border-white/10 shadow-2xl overflow-hidden">
-            <button onClick={() => setIsModalOpen(false)} className="absolute top-6 right-8 text-gray-400 hover:text-[#6919dd] transition-colors"><FaTimes size={24}/></button>
-            
+            <button onClick={() => setIsModalOpen(false)} className="absolute top-6 right-8 text-gray-400 hover:text-[#6919dd] transition-colors"><FaTimes size={24} /></button>
+
             <h3 className="text-3xl font-black text-gray-900 dark:text-white uppercase italic tracking-tighter mb-8 text-center">Ваш <span className="text-[#6919dd]">Відгук</span></h3>
-            
+
             <form onSubmit={handleSubmit} className="space-y-6">
-              <input 
-                required 
-                type="text" 
-                value={newReview.name} 
-                onChange={(e) => setNewReview({...newReview, name: e.target.value})} 
-                className="w-full bg-gray-50 dark:bg-[#080808] border-none rounded-2xl p-4 focus:ring-2 focus:ring-[#6919dd] outline-none dark:text-white" 
+              <input
+                required
+                type="text"
+                value={newReview.name}
+                onChange={(e) => setNewReview({ ...newReview, name: e.target.value })}
+                className="w-full bg-gray-50 dark:bg-[#080808] border-none rounded-2xl p-4 focus:ring-2 focus:ring-[#6919dd] outline-none dark:text-white"
                 placeholder="Ваше ім'я"
               />
-              
+
               <div className="flex justify-center gap-2 py-2">
                 {[...Array(5)].map((_, i) => (
-                  <FaStar 
-                    key={i} 
+                  <FaStar
+                    key={i}
                     className={`text-3xl cursor-pointer transition-all ${i < (hoverRating || newReview.rating) ? 'text-amber-500 scale-110' : 'text-gray-200 dark:text-gray-800'}`}
                     onMouseEnter={() => setHoverRating(i + 1)}
                     onMouseLeave={() => setHoverRating(0)}
-                    onClick={() => setNewReview({...newReview, rating: i + 1})}
+                    onClick={() => setNewReview({ ...newReview, rating: i + 1 })}
                   />
                 ))}
               </div>
 
-              <textarea 
-                required 
-                rows="4" 
-                value={newReview.text} 
-                onChange={(e) => setNewReview({...newReview, text: e.target.value})} 
-                className="w-full bg-gray-50 dark:bg-[#080808] border-none rounded-2xl p-4 focus:ring-2 focus:ring-[#6919dd] outline-none dark:text-white resize-none" 
+              <textarea
+                required
+                rows="4"
+                value={newReview.text}
+                onChange={(e) => setNewReview({ ...newReview, text: e.target.value })}
+                className="w-full bg-gray-50 dark:bg-[#080808] border-none rounded-2xl p-4 focus:ring-2 focus:ring-[#6919dd] outline-none dark:text-white resize-none"
                 placeholder="Ваш коментар..."
               ></textarea>
-              
+
               <button type="submit" className="w-full py-5 bg-[#6919dd] text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-[#5815b8] shadow-xl active:scale-95 transition-all">
                 Опублікувати
               </button>
