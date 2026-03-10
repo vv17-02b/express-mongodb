@@ -276,3 +276,5 @@ https://block-nextjs.vercel.app
 vv17-02b
 та URL-адреса
 www.linkedin.com/in/vladimir-bessalov-1a8b03264
+
+https://vercel.com/vladimirs-projects-fdd94eab/~/settings/general
