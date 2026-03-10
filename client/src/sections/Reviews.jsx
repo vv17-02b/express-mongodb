@@ -17,7 +17,7 @@ const Reviews = () => {
 
     const fetchReviews = async () => {
       try {
-        // Видалили http://localhost:5000
+
         const res = await axios.get('/api/reviews');
         setReviews(res.data);
       } catch (err) {
@@ -35,7 +35,7 @@ const Reviews = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Видалили http://localhost:5000
+
       const res = await axios.post('/api/reviews', newReview);
 
       setReviews([res.data, ...reviews]);
@@ -73,15 +73,20 @@ const Reviews = () => {
 
                 <div className="flex items-center gap-4 mb-6">
                   <img
-                    src={rev.avatar || `https://i.pravatar.cc{rev._id}`}
+                    src={rev.avatar || `https://i.pravatar.cc{rev._id || Date.now()}`}
                     alt={rev.name}
                     className="w-16 h-16 rounded-2xl object-cover border-2 border-[#6919dd]/30 shadow-lg"
                   />
                   <div>
-                    <h4 className="text-lg font-black text-gray-900 dark:text-white leading-tight uppercase italic">{rev.name}</h4>
-                    <p className="text-[10px] text-gray-500 dark:text-gray-400 font-black uppercase tracking-widest">{rev.role || "Клієнт"}</p>
+                    <h4 className="text-lg font-black text-gray-900 dark:text-white leading-tight uppercase italic">
+                      {rev.name}
+                    </h4>
+                    <p className="text-[10px] text-gray-500 dark:text-gray-400 font-black uppercase tracking-widest">
+                      {rev.role || "Клієнт"}
+                    </p>
                   </div>
                 </div>
+
                 <p className="text-gray-600 dark:text-gray-400 font-medium italic mb-8 leading-relaxed">
                   "{rev.text}"
                 </p>
