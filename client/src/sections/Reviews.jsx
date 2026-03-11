@@ -91,7 +91,7 @@ const Reviews = () => {
 
                 <div className="flex items-center gap-4 mb-6">
                   <img
-                    src={rev.avatar || "https://i.pravatar.cc"}
+                    src={rev.avatar || "https://i.pravatar.cc"} 
                     alt={rev.name}
                     className="w-16 h-16 rounded-2xl object-cover border-2 border-[#6919dd]/30 shadow-lg"
                   />
